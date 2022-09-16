@@ -17,7 +17,7 @@ class ProductController extends AbstractController
     {
         $products = $productRepository->findAll();
 
-        return $this->render('product/index.html.twig', [
+        return $this->render('/index.html.twig', [
             'products' => $products
         ]);
     }
