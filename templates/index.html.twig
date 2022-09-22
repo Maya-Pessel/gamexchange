@@ -7,12 +7,12 @@
 
 </style>
 
-    <div class="row">
+    <div class="row mx-3 justify-content-center">
         {% for product in products %}
             <div class="product col-md-3">
-                {# <p><img src=""></p> #}
+                <p class="text-center"><img src={{ asset('build/images/exchange.png') }}></p>
                 <h2>{{ product.title}}</h2>
-                <p>{{ product.description}}</p>
+                {# <p>{{ product.description}}</p> #}
             </div>
         {% endfor %}
     </div>

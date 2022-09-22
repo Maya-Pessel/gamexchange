@@ -17,14 +17,14 @@ body {
     color: white;
     ul{
         li{
-            margin-right: 30px;
+            margin-right: 50px;
             font-size: 24px;
             a{
                 color: #DEECEE!important;
                 text-align: center;
                 transition:  0.4s ease;
                 img {
-                    height: 35px;
+                    height: 30px;
                     } 
             }
             a:hover{
@@ -44,6 +44,9 @@ body {
     }
 }
 
+.navbar-nav {
+}
+
 .product{
     background: $yellow;
     box-shadow: 3px 4px 0px $yellow-secondary;
@@ -53,4 +56,40 @@ body {
         text-align: center;
     }
     padding: 5px;
+}
+
+
+@media (max-width:961px){
+    .navbar{
+        position: fixed;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: 1030;
+        img {
+            height: 30px;
+            } 
+    }
+    .navbar-brand{
+        display: none;
+    }
+
+    .navbar-nav {
+        margin: 0 auto 0 auto; 
+    }
+}
+
+
+
+@media (max-width:575px){
+    .navbar{
+
+        img {
+            height: 20px;
+            } 
+    }
+    .navbar-nav{
+        flex-direction: row!important;
+    }
+
 }
