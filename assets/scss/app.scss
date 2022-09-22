@@ -7,9 +7,43 @@ $yellow: #F8CB2E;
 $yellow-secondary: #FBE597;
 
 $blue: #006E7F;
+$blue-secondary: #80B7BF;
 
 body {
     font-family: $primary-font;
+}
+
+.yellow-box{
+    background: $yellow;
+    box-shadow: 3px 4px 0px $yellow-secondary;
+    border-radius: 6px;
+}
+
+.blue-box{
+    background: $blue;
+    box-shadow: 2px 4px 0px $blue-secondary;
+    border-radius: 6px;
+}
+
+.alerts{
+    padding: 10px;
+    color: white;
+    text-align: center;
+    margin: 0;
+    border-radius: 0;
+    border: none;
+
+    &.alerts-success{
+        background-color: #52bb7c;
+    }
+
+    &.alerts-error{
+        background-color: #bb525b;
+    }
+
+    &.alerts-info{
+        background-color: #5278bb;
+    }
 }
 
 .navbar{
@@ -47,16 +81,50 @@ body {
 .navbar-nav {
 }
 
+
+
 .product{
-    background: $yellow;
-    box-shadow: 3px 4px 0px $yellow-secondary;
-    border-radius: 6px;
     margin: 30px;
+    padding: 5px;
     h2{
         text-align: center;
     }
-    padding: 5px;
 }
+
+.box{
+    padding: 30px;
+    margin-top: 70px;
+    h1{
+        text-align: center;
+        margin: 0 0 15px 0;
+    }
+
+    .blue-box{
+        color: white;
+        display: block;
+        margin: 25px auto 0 auto;
+        width: max-content;
+        padding: 5px 15px;
+    }
+    .blue-box:hover{
+        background: $blue;
+        box-shadow: 2px 4px 0px $blue-secondary;
+        color: white;
+    }
+
+    #product div{
+        margin-top: 10px;
+        
+        input{
+            border: none;
+            border-radius: 3px;
+            margin-left: 10px;
+            width: 100%;
+        }
+    }
+}
+
+
 
 
 @media (max-width:961px){
