@@ -52,4 +52,16 @@ class ProductController extends AbstractController
         ]);
     }
 
+/**
+     * @Route("/product/{id<[0-9]+>}", name="app_product_show", methods="GET|POST")
+     */
+
+    public function show(Product  $product, Request $request, EntityManagerInterface $em ): Response
+    {
+        return $this->render('product/show.html.twig', [
+            'product' => $product
+        ]);
+    }
+
+
 }
