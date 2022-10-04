@@ -4,10 +4,14 @@ namespace App\Entity;
 
 use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
-
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
+ * @Vich\Uploadable
  */
+#[Vich\Uploadable]
 class Product
 {
     /**
@@ -28,7 +32,19 @@ class Product
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * NOTE: This is not a mapped field of entity metadata, just a simple property.
+     *
+     * @Assert\Image(maxSize="8M")
+     *
+     * @var File|null
+     */
+    #[Vich\UploadableField(mapping: 'products', fileNameProperty: 'image', size: 'imageSize')]
+    private $imageFile;
+
+    /**
+     * @ORM\Column(type="string")
+     *
+     * @var string|null
      */
     private $image;
 
@@ -61,12 +77,28 @@ class Product
         return $this;
     }
 
+    /**
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $imageFile
+     */
+    public function setImageFile(?File $imageFile = null): void
+    {
+        $this->imageFile = $imageFile;
+
+        if (null !== $imageFile) {
+            echo ('hello');
+        }
+    }
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
     public function getImage(): ?string
     {
         return $this->image;
     }
 
-    public function setImage(string $image): self
+    public function setImage(?string $image): self
     {
         $this->image = $image;
 

@@ -1,6 +1,5 @@
 <?php
 
-use App\Entity\Product;
 namespace App\Controller;
 
 use App\Entity\Product;
