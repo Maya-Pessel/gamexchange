@@ -17,6 +17,12 @@ body {
     background: $yellow;
     box-shadow: 3px 4px 0px $yellow-secondary;
     border-radius: 6px;
+    img {
+        text-align: center;
+        display: block;
+        margin: auto;
+        border-radius: 7px;
+    }
 }
 
 .blue-box{
@@ -100,8 +106,7 @@ body {
 }
 
 .box{
-    padding: 30px;
-    margin-top: 70px;
+    padding: 15px 30px;
     h1{
         text-align: center;
         margin: 0 0 15px 0;

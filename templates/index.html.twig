@@ -9,12 +9,14 @@
 
     <div class="row mx-3 justify-content-center">
         {% for product in products %}
-            
+
             <div class="product yellow-box  col-md-3">
                 <a href="{{ path('app_product_show', {id: product.id}) }}">
-                    <p class="text-center"><img src={{ asset('build/images/exchange.png') }}></p>
+                    <p class="text-center mt-2"><img src={{ asset('build/images/exchange.png') }}></p>
                     <h2>{{ product.title}}</h2>
-                    {# <p>{{ product.description}}</p> #}
+                    <div class="mw-100 overflow-hidden rounded-top">
+                        <img class="w-75 mb-2" src="{{ (product.image ? vich_uploader_asset(product): asset('build/images/placeholder.png')) |imagine_filter('squared_thumbnail_small') }}" alt="{{ product.title }}">
+                    </div>
                 </a>
             </div>
             
