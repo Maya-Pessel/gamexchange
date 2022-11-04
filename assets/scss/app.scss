@@ -52,7 +52,7 @@ body {
         text-align: center;
     }
     a{
-        color: rgb(255, 255, 255);
+        color: white;
         text-decoration: none;
     }
     a:hover{
@@ -69,6 +69,7 @@ body {
     }
 
     .blue-box{
+        background: $blue;
         color: white;
         display: block;
         margin: 25px auto 0 auto;
@@ -76,9 +77,9 @@ body {
         padding: 5px 15px;
     }
     .blue-box:hover{
-        background: $blue;
-        box-shadow: 2px 4px 0px $blue-secondary;
-        color: white;
+        background: #015a68 !important;
+        box-shadow: 2px 4px 0px #659aa1 !important;
+        color: white!important;
     }
 
     #product div{
@@ -91,42 +92,4 @@ body {
             width: 100%;
         }
     }
-}
-
-
-
-
-@media (max-width:961px){
-    .navbar{
-        position: fixed;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        z-index: 1030;
-        img {
-            height: 30px;
-            } 
-    }
-    .navbar-brand{
-        display: none;
-    }
-
-    .navbar-nav {
-        margin: 0 auto 0 auto; 
-    }
-}
-
-
-
-@media (max-width:575px){
-    .navbar{
-
-        img {
-            height: 20px;
-            } 
-    }
-    .navbar-nav{
-        flex-direction: row!important;
-    }
-
 }
