@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="box">
-        <div class="col-md-4 mx-auto box yellow-box">
+        <div class="col-md-4 mt-4 p-4 mx-auto box yellow-box">
             <h1>{{ product.title}}</h1>
             <img class="w-100" src="{{ (product.image ? vich_uploader_asset(product): asset('images/placeholder.png'))|imagine_filter('squared_thumbnail_medium') }}" alt="{{ product.title }}">
             <p class="mt-2">{{ product.description}}</p>

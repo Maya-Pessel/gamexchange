@@ -8,10 +8,9 @@
 </style>
 
     <div class="row mx-3 justify-content-center">
-        <div class="mt-5"></div>
         {% for product in products %}
 
-            <div class="product yellow-box  col-md-3">
+            <div class="product yellow-box mt-4 col-md-3">
                 <a href="{{ path('app_product_show', {id: product.id}) }}">
                     <p class="text-center mt-2"><img src={{ asset('build/images/exchange.png') }}></p>
                     <h2>{{ product.title}}</h2>
