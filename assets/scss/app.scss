@@ -2,65 +2,6 @@
 @import "~bootstrap";
 @import "variables";
 
-body {
-    font-family: $primary-font;
-}
-
-.yellow-box{
-    background: $yellow;
-    box-shadow: 3px 4px 0px $yellow-secondary;
-    border-radius: 6px;
-    img {
-        text-align: center;
-        display: block;
-        margin: auto;
-        border-radius: 7px;
-    }
-}
-
-.blue-box{
-    background: $blue;
-    box-shadow: 2px 4px 0px $blue-secondary;
-    border-radius: 6px;
-}
-
-.alerts{
-    padding: 10px;
-    color: white;
-    text-align: center;
-    margin: 0;
-    border-radius: 0;
-    border: none;
-
-    &.alerts-success{
-        background-color: #52bb7c;
-    }
-
-    &.alerts-error{
-        background-color: #bb525b;
-    }
-
-    &.alerts-info{
-        background-color: #5278bb;
-    }
-}
-
-.product{
-    margin: 30px;
-    padding: 5px;
-    h2{
-        text-align: center;
-    }
-    a{
-        color: white;
-        text-decoration: none;
-    }
-    a:hover{
-        color: rgb(255, 255, 255);
-        text-decoration: none;
-    }
-}
-
 .box{
     padding: 15px 30px;
     h1{
@@ -75,6 +16,8 @@ body {
         margin: 25px auto 0 auto;
         width: max-content;
         padding: 5px 15px;
+        box-shadow: 2px 4px 0px $blue-secondary;
+        border-radius: 6px;
     }
     .blue-box:hover{
         background: #015a68 !important;
@@ -84,7 +27,7 @@ body {
 
     #product div{
         margin-top: 10px;
-        
+
         input{
             border: none;
             border-radius: 3px;
@@ -93,3 +36,43 @@ body {
         }
     }
 }
+.yellow-box{
+    background: $yellow;
+    box-shadow: 3px 4px 0px $yellow-secondary;
+    border-radius: 6px;
+    img {
+        text-align: center;
+        display: block;
+        margin: auto;
+        border-radius: 7px;
+    }
+}
+.product:hover{
+    background: #e8bb19 !important;
+    box-shadow: 3px 4px 0px #f8d97a !important;
+    transition: background-color 0.15s ease-in-out,  box-shadow 0.15s ease-in-out;
+}
+
+.product{
+    margin: 30px;
+    padding: 5px;
+    transition: background-color 0.15s ease-in-out,  box-shadow 0.15s ease-in-out;
+    h2{
+        text-align: center;
+    }
+    a{
+        color: white;
+        text-decoration: none;
+    }
+    a:hover{
+        color: white;
+        text-decoration: none;
+    }
+}
+
+//.blue-box{
+//    background: $blue;
+//    box-shadow: 2px 4px 0px $blue-secondary;
+//    border-radius: 6px;
+//}
+
