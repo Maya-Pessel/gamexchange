@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} 🧸 Gamexchange | Register{% endblock %}
+
+
+{% block body %}
+    <div class="col-md-4 col-sm-8 col-xs-4 mx-auto box mt-4 box">
+        <div class="yellow-box p-4">
+
+            <h1>Register</h1>
+            {#{{ form_start(registrationForm) }}
+                {{ form_row(registrationForm.email) }}
+            {{ form_row(registrationForm.firstName) }}
+            {{ form_row(registrationForm.lastName) }}
+
+            {{ form_row(registrationForm.plainPassword, {
+                    label: 'Password'
+                }) }}
+                <button type="submit" class="btn">Register</button>
+            {{ form_end(registrationForm) }}#}
+
+            {{ form_start(registrationForm) }}
+            {{ form_widget(registrationForm) }}
+            <button class="btn blue-box" type="submit" class="btn">Register</button>
+            {{ form_end(registrationForm) }}
+
+        </div>
+    </div>
+    <div class="mt-6"></div>
+
+{% endblock %}
