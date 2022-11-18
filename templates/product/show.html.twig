@@ -8,6 +8,8 @@
             <h1>{{ product.title}}</h1>
             <img class="w-100" src="{{ (product.image ? vich_uploader_asset(product): asset('images/placeholder.png'))|imagine_filter('squared_thumbnail_medium') }}" alt="{{ product.title }}">
             <p class="mt-2">{{ product.description}}</p>
+
+            <p class="mt-2">Posté par {{product.user.firstName}} {{product.user.lastName}}</p>
             <a href="" class="btn blue-box">
                 Proposer un échange
             </a>
