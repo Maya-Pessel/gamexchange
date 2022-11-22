@@ -61,7 +61,7 @@ class ProductController extends AbstractController
         ]);
     }
 
-/**
+    /**
      * @Route("/product/{id<[0-9]+>}", name="app_product_show", methods="GET|POST")
      */
 
@@ -72,5 +72,32 @@ class ProductController extends AbstractController
         ]);
     }
 
+
+    /**
+     * @Route("/product/{id<[0-9]+>}/edit", name="app_product_edit", methods="GET|POST")
+     */
+    public function edit(Product $product, Request $request, EntityManagerInterface $em): Response
+    {
+        if ($product->getUser() !== $this->security->getUser()) {
+            throw $this->createAccessDeniedException('You are not the owner of this product');
+        }
+
+        $form = $this->createForm(ProductType::class, $product);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+
+            $this->addFlash('success', 'Product successfully updated');
+
+            return $this->redirectToRoute('app_product_show', ['id' => $product->getId()]);
+        }
+
+        return $this->render('product/edit.html.twig', [
+            'form' => $form->createView(),
+            'product' => $product
+        ]);
+    }
 
 }

@@ -13,6 +13,11 @@
             <a href="" class="btn blue-box">
                 Proposer un échange
             </a>
+            <div class="pt-3">
+                {% if  app.user == product.user %}
+                    <a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-primary">Modifier</a>
+                {% endif %}
+            </div>
         </div>
     </div>
     <div class="mt-6"></div>
