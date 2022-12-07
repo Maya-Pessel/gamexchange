@@ -5,7 +5,20 @@
 {% block body %}
     <div class="box">
         <div class="col-md-4 mt-4 p-4 mx-auto box yellow-box">
-            <h1>{{ product.title}}</h1>
+            <div class="btn-group dropend col-md-1 offset-md-11 col-xs-1 offset-xs-11">
+                {% if  app.user == product.user %}
+                    <button type="button" class="btn display-6 dropdown-btn" data-bs-toggle="dropdown" aria-expanded="false">
+                        ⋮
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn d-flex">Modifier<img src={{ asset('build/images/edit.png') }}></a></li>
+                        <li><a href="" class="btn d-flex">Supprimer<img src={{ asset('build/images/delete.png') }}></a></li>
+
+                    </ul>
+                {% endif %}
+                </div>
+            <h1 class="col-md-11">{{ product.title}}</h1>
+
             <img class="w-100" src="{{ (product.image ? vich_uploader_asset(product): asset('images/placeholder.png'))|imagine_filter('squared_thumbnail_medium') }}" alt="{{ product.title }}">
             <p class="mt-2">{{ product.description}}</p>
 
@@ -13,6 +26,7 @@
             <a href="" class="btn blue-box">
                 Proposer un échange
             </a>
+
         </div>
     </div>
     <div class="mt-6"></div>
