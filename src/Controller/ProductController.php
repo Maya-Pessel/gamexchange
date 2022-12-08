@@ -100,4 +100,22 @@ class ProductController extends AbstractController
         ]);
     }
 
+
+    /**
+     * @Route("/product/{id<[0-9]+>}/delete", name="app_product_delete", methods="GET")
+     */
+    public function delete(Product $product, Request $request, EntityManagerInterface $em): Response
+    {
+        if ($product->getUser() !== $this->security->getUser()) {
+            throw $this->createAccessDeniedException('You are not the owner of this product');
+        }
+
+        $em->remove($product);
+        $em->flush();
+
+        $this->addFlash('success', 'Product successfully deleted');
+
+        return $this->redirectToRoute('app_home');
+    }
+
 }
