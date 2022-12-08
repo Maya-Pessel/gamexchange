@@ -29,10 +29,10 @@ class Product
     #[Vich\UploadableField(mapping: 'products', fileNameProperty: 'image', size: 'imageSize')]
     private ?File $imageFile = null;
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: 'string', nullable: true)]
     private ?string $image = null;
 
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: 'integer', nullable: true)]
     private ?int $imageSize = null;
 
     #[ORM\Column(type: 'datetime')]
@@ -102,6 +102,7 @@ class Product
     public function setTitle(string $title): self
     {
         $this->title = $title;
+        $this->updatedAt = new \DateTimeImmutable();
 
         return $this;
     }
