@@ -6,12 +6,14 @@
   padding: 10px;
   color: white;
   text-align: center;
-  margin: 0;
-  border-radius: 0;
+  border-radius: 10px;
+  width: 50%;
+  display: block;
+  margin: 15px auto;
   border: none;
 
   &.alerts-success{
-    background-color: #52bb7c;
+    background-color: $blue;
   }
 
   &.alerts-error{
