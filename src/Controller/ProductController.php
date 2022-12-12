@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Product;
 use App\Entity\User;
 use App\Form\ProductType;
+use App\Form\UserType;
 use App\Repository\UserRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -117,5 +118,23 @@ class ProductController extends AbstractController
 
         return $this->redirectToRoute('app_home');
     }
+
+
+    /*get all products from a user*/
+    /**
+     * @Route("/profile/{id<[0-9]+>}", name="app_user_profile", methods="GET")
+     */
+    public function userProducts(User $user, ProductRepository $productRepository): Response
+    {
+        $user = $this->security->getUser();
+        $products = $productRepository->findBy(['user' => $user], ['id' => 'DESC']);
+
+        return $this->render('user/profile.html.twig', [
+            'products' => $products,
+            'user' => $user
+        ]);
+    }
+
+
 
 }
