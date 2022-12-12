@@ -7,6 +7,7 @@ use App\Form\UserType;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -33,8 +34,9 @@ class UserController extends AbstractController
         ]);
     }
 
+    // update profile and if the password is edited, hash it
     #[Route('/user/{id}/update', name: 'app_user_update')]
-    public function editUser(User $user, Request $request, EntityManagerInterface $em): Response
+    public function editUser(User $user, Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         if ($user !== $this->security->getUser()) {
             throw $this->createAccessDeniedException('You are not the owner of this profile');
@@ -45,6 +47,13 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // encode the plain password
+            $user->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                )
+            );
             $em->flush();
 
             $this->addFlash('success', 'Profile successfully updated');
