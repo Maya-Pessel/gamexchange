@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="col-md-4 col-sm-8 col-xs-4 mx-auto box mt-4 box">
+        <div class="yellow-box p-4">
+            <h1>Edit your profile</h1>
+
+            {{ include('user/_form.html.twig', {'submitButtonText': 'Edit profile'}) }}
+
+        </div>
+    </div>
+    <div class="mt-6"></div>
+
+{% endblock %}

@@ -1,0 +1,6 @@
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+<div class="d-grid gap-2">
+    <input type="submit" value="{{ submitButtonText|default('Save changement') }}" class="btn blue-box" formnovalidate>
+</div>
+{{ form_end(form) }}

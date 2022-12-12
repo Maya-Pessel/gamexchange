@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class=" gap-2 box d-flex flex-wrap">
+
+        <a class="btn blue-box" href="{{ path('app_user_update', {id:app.user.id}) }}">Modifier vos informations</a>
+        <a class="btn blue-box" href="{{ path('app_create_product') }}">Create a product</a>
+        <a class="btn blue-box" href="{{ path('app_create_product') }}">Voir votre historique</a>
+
+    </div>
+
+{#    show all products of the current user#}
+
+    <h3 class="text-center mt-5">Voici vos produits</h3>
+    <div class="row mx-3 justify-content-center">
+        {% for product in products %}
+            <div class="product yellow-box mt-4 col-md-3">
+                <a href="{{ path('app_product_show', {id: product.id}) }}">
+                    <p class="text-center mt-2"><img src={{ asset('build/images/exchange.png') }}></p>
+                    <h2>{{ product.title}}</h2>
+                    <div class="mw-100 overflow-hidden rounded-top">
+                        <img class="w-75 mb-2" src="{{ (product.image ? vich_uploader_asset(product): asset('build/images/placeholder.png')) |imagine_filter('squared_thumbnail_small') }}" alt="{{ product.title }}">
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="mt-6"></div>
+
+{% endblock %}
