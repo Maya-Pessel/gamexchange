@@ -157,7 +157,7 @@ class ProductController extends AbstractController
             $em->flush();
 
             $this->addFlash('success', 'Exchange successfully created');
-
+            echo "exchange created";
             return $this->redirectToRoute('app_home');
         }
 
