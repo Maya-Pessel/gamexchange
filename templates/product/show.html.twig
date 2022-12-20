@@ -23,16 +23,33 @@
             <p class="mt-2">{{ product.description}}</p>
 
             <p class="mt-2">Posté par {{product.user.firstName}} {{product.user.lastName}}</p>
+            {% if app.user %}
+                {% if app.user != product.user  %}
 
-            {% if app.user != product.user %}
+                    <a href="{{ path('app_product_exchange', {'id': product.id}) }}" class="btn blue-box">
+                        Proposer un échange
+                    </a>
+                {% endif %}
 
-                <a href="" class="btn blue-box">
+            {% else %}
+                <a href="{{ path('app_login') }}" class="btn blue-box">
                     Proposer un échange
                 </a>
             {% endif %}
-
         </div>
     </div>
     <div class="mt-6"></div>
 
 {% endblock %}
+
+
+{% if app.user %}
+    {#connecté#}
+    {% if app.user != product.user  %}
+
+        {#si user connecté = créateur du produit#}
+    {% endif %}
+
+{% else %}
+    {#non connecté#}
+{% endif %}
