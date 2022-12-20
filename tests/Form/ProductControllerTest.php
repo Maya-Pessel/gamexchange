@@ -16,7 +16,7 @@ class ProductControllerTest extends WebTestCase
         $this->assertSelectorTextContains('h1', 'Register');
     }
 
-    #test the h1 of the login page
+    # test the h1 of the login page
     public function testTitleLogin()
     {
         $client = static::createClient();
