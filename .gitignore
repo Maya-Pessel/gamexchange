@@ -28,3 +28,9 @@
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+
+
+public/media/cache/squared_thumbnail_big/uploads/products
+public/media/cache/squared_thumbnail_medium/uploads/products
+public/media/cache/squared_thumbnail_small/uploads/products
+public/uploads/products/

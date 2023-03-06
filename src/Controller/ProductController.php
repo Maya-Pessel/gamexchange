@@ -124,21 +124,6 @@ class ProductController extends AbstractController
     }
 
 
-    /*get all products from a user*/
-    /**
-     * @Route("/profile/{id<[0-9]+>}", name="app_user_profile", methods="GET")
-     */
-    public function userProducts(User $user, ProductRepository $productRepository): Response
-    {
-        $user = $this->security->getUser();
-        $products = $productRepository->findBy(['user' => $user], ['id' => 'DESC']);
-
-        return $this->render('user/profile.html.twig', [
-            'products' => $products,
-            'user' => $user
-        ]);
-    }
-
     # exchange a product with another user with the exchange entity
     /**
      * @Route("/product/{id<[0-9]+>}/exchange", name="app_product_exchange", methods="GET|POST")
