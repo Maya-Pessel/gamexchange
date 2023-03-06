@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Exchange;
 use App\Entity\Product;
 use App\Entity\User;
+use App\Form\ExchangeType;
 use App\Form\ProductType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
@@ -40,6 +42,9 @@ class ProductController extends AbstractController
      */
     public function create(Request $request, EntityManagerInterface $em): Response
     {
+        if (!$this->security->getUser()) {
+            throw $this->createAccessDeniedException('You must be logged in to create a product');
+        }
         $product = new Product;
 
         $form = $this -> createForm(ProductType::class, $product);
@@ -65,8 +70,7 @@ class ProductController extends AbstractController
     /**
      * @Route("/product/{id<[0-9]+>}", name="app_product_show", methods="GET|POST")
      */
-
-    public function show(Product  $product, Request $request, EntityManagerInterface $em ): Response
+    public function show(Product $product, Request $request, EntityManagerInterface $em ): Response
     {
         return $this->render('product/show.html.twig', [
             'product' => $product
@@ -120,21 +124,31 @@ class ProductController extends AbstractController
     }
 
 
-    /*get all products from a user*/
+    # exchange a product with another user with the exchange entity
     /**
-     * @Route("/profile/{id<[0-9]+>}", name="app_user_profile", methods="GET")
+     * @Route("/product/{id<[0-9]+>}/exchange", name="app_product_exchange", methods="GET|POST")
      */
-    public function userProducts(User $user, ProductRepository $productRepository): Response
+    public function exchange(Product $product, Request $request, EntityManagerInterface $em): Response
     {
-        $user = $this->security->getUser();
-        $products = $productRepository->findBy(['user' => $user], ['id' => 'DESC']);
+        $form = $this->createForm(ExchangeType::class);
 
-        return $this->render('user/profile.html.twig', [
-            'products' => $products,
-            'user' => $user
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $exchange = new Exchange();
+            $exchange->setProductId1($product);
+            $exchange->setProductId2($form->get('productId2')->getData());
+            $em->persist($exchange);
+            $em->flush();
+
+            $this->addFlash('success', 'Exchange successfully created');
+            echo "exchange created";
+            return $this->redirectToRoute('app_home');
+        }
+
+        return $this->render('product/exchange.html.twig', [
+            'form' => $form->createView(),
+            'product' => $product
         ]);
     }
-
-
-
 }
