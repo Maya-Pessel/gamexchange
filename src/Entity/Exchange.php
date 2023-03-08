@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ExchangeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ExchangeRepository::class)]
@@ -20,6 +22,14 @@ class Exchange
     #[ORM\ManyToOne(inversedBy: 'exchanges')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Product $productId2 = null;
+
+    #[ORM\OneToMany(mappedBy: 'exchange_id', targetEntity: ExchangeStatus::class)]
+    private Collection $exchangeStatus;
+
+    public function __construct()
+    {
+        $this->exchangeStatus = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -49,4 +59,36 @@ class Exchange
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, ExchangeStatus>
+     */
+    public function getExchangeStatus(): Collection
+    {
+        return $this->exchangeStatus;
+    }
+
+    public function addExchangeStatus(ExchangeStatus $exchangeStatus): self
+    {
+        if (!$this->exchangeStatus->contains($exchangeStatus)) {
+            $this->exchangeStatus->add($exchangeStatus);
+            $exchangeStatus->setExchangeId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExchangeStatus(ExchangeStatus $exchangeStatus): self
+    {
+        if ($this->exchangeStatus->removeElement($exchangeStatus)) {
+            // set the owning side to null (unless already changed)
+            if ($exchangeStatus->getExchangeId() === $this) {
+                $exchangeStatus->setExchangeId(null);
+            }
+        }
+
+        return $this;
+    }
+
+
 }

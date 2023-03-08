@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Exchange;
+use App\Entity\ExchangeStatus;
 use App\Entity\Product;
+use App\Entity\Status;
 use App\Entity\User;
 use App\Form\ExchangeType;
 use App\Form\ProductType;
@@ -139,6 +141,14 @@ class ProductController extends AbstractController
             $exchange = new Exchange();
             $exchange->setProductId1($product);
             $exchange->setProductId2($form->get('productId2')->getData());
+
+            // Create a new ExchangeStatus object and associate it with the Exchange
+            $exchangeStatus = new ExchangeStatus();
+            $exchangeStatus->setExchangeId($exchange);
+            $status = $em->getRepository(Status::class)->findOneBy(['name' => 'Pending']);
+            $exchangeStatus->setStatusId($status);
+            $em->persist($exchangeStatus);
+
             $em->persist($exchange);
             $em->flush();
 
@@ -146,11 +156,6 @@ class ProductController extends AbstractController
             echo "exchange created";
             return $this->redirectToRoute('app_home');
         }
-
-        return $this->render('product/create_exchange.html.twig', [
-            'form' => $form->createView(),
-            'product' => $product
-        ]);
     }
 
     /**
