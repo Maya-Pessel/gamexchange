@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row  mt-4">
+
+
+        {% for exchange in exchanges %}
+            <div class="col-md-4 offset-1">
+                <h3 class="text-center">Your product</h3>
+                <div class="product yellow-box mt-4">
+                    <a href="{{ path('app_product_show', {id: exchange.productId2.id}) }}">
+                        <p class="text-center mt-2"><img src={{ asset('build/images/exchange.png') }}></p>
+                        <div class="mw-100 overflow-hidden rounded-top">
+                            <img class="w-75 mb-2" src="{{ (exchange.productId2.image ? vich_uploader_asset(exchange.productId2): asset('build/images/placeholder.png')) |imagine_filter('squared_thumbnail_small') }}" alt="{{ exchange.productId2.title }}">
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-md-2 text-center my-auto">
+                <a href="#" class="btn btn-danger">Annuler</a>
+                <br><br>
+                <a href="#" class="btn btn-primary">Envoyer un message</a>
+            </div>
+
+            <div class="col-md-4">
+
+                <h3 class="text-center">Product of {{ exchange.productId1.getUser().firstName }}</h3>
+                <div class="product yellow-box mt-4">
+                    <a href="{{ path('app_product_show', {id: exchange.productId1.id}) }}">
+                        <p class="text-center mt-2"><img src={{ asset('build/images/exchange.png') }}></p>
+                        <div class="mw-100 overflow-hidden rounded-top">
+                            <img class="w-75 mb-2" src="{{ (exchange.productId1.image ? vich_uploader_asset(exchange.productId1): asset('build/images/placeholder.png')) |imagine_filter('squared_thumbnail_small') }}" alt="{{ exchange.productId1.title }}">
+                        </div>
+                    </a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

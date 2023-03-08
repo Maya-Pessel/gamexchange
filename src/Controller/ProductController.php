@@ -9,6 +9,7 @@ use App\Form\ExchangeType;
 use App\Form\ProductType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
+use App\Repository\ExchangeRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -126,7 +127,7 @@ class ProductController extends AbstractController
 
     # exchange a product with another user with the exchange entity
     /**
-     * @Route("/product/{id<[0-9]+>}/exchange", name="app_product_exchange", methods="GET|POST")
+     * @Route("/product/{id<[0-9]+>}/create-exchange", name="app_product_exchange", methods="GET|POST")
      */
     public function exchange(Product $product, Request $request, EntityManagerInterface $em): Response
     {
@@ -146,9 +147,21 @@ class ProductController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
-        return $this->render('product/exchange.html.twig', [
+        return $this->render('product/create_exchange.html.twig', [
             'form' => $form->createView(),
             'product' => $product
+        ]);
+    }
+
+    /**
+     * @Route("/product/{id<[0-9]+>}/show-exchange", name="app_product_exchanges", methods="GET|POST")
+     */
+    public function showExchanges(Product $product, ExchangeRepository $exchangeRepository): Response
+    {
+        $exchanges = $exchangeRepository->exchangesForProduct($product);
+        return $this->render('product/show-exchange.html.twig', [
+            'product' => $product,
+            'exchanges' => $exchanges,
         ]);
     }
 }

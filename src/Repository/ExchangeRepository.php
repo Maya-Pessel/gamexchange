@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Exchange;
+use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -63,4 +64,16 @@ class ExchangeRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function exchangesForProduct(Product $product): array
+    {
+        $queryBuilder = $this->createQueryBuilder('exchange');
+        $queryBuilder->where($queryBuilder->expr()->orX(
+            $queryBuilder->expr()->eq('exchange.productId1', ':product'),
+            $queryBuilder->expr()->eq('exchange.productId2', ':product')
+        ))
+            ->setParameter('product', $product)
+            ->orderBy('exchange.id', 'DESC');
+
+        return $queryBuilder->getQuery()->getResult();
+    }
 }
