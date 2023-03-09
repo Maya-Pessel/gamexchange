@@ -23,13 +23,12 @@ class Exchange
     #[ORM\JoinColumn(nullable: false)]
     private ?Product $productId2 = null;
 
-    #[ORM\OneToMany(mappedBy: 'exchange_id', targetEntity: ExchangeStatus::class)]
-    private Collection $exchangeStatus;
+    #[ORM\ManyToOne(inversedBy: 'exchanges')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $createdBy = null;
 
-    public function __construct()
-    {
-        $this->exchangeStatus = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(inversedBy: 'exchanges')]
+    private ?Status $status = null;
 
     public function getId(): ?int
     {
@@ -60,35 +59,33 @@ class Exchange
         return $this;
     }
 
-    /**
-     * @return Collection<int, ExchangeStatus>
-     */
-    public function getExchangeStatus(): Collection
+    public function getCreatedBy(): ?User
     {
-        return $this->exchangeStatus;
+        return $this->createdBy;
     }
 
-    public function addExchangeStatus(ExchangeStatus $exchangeStatus): self
+    public function setCreatedBy(?User $createdBy): self
     {
-        if (!$this->exchangeStatus->contains($exchangeStatus)) {
-            $this->exchangeStatus->add($exchangeStatus);
-            $exchangeStatus->setExchangeId($this);
-        }
+        $this->createdBy = $createdBy;
 
         return $this;
     }
 
-    public function removeExchangeStatus(ExchangeStatus $exchangeStatus): self
+    public function canBeEditedByUser(User $user): bool
     {
-        if ($this->exchangeStatus->removeElement($exchangeStatus)) {
-            // set the owning side to null (unless already changed)
-            if ($exchangeStatus->getExchangeId() === $this) {
-                $exchangeStatus->setExchangeId(null);
-            }
-        }
+        return $this->getCreatedBy() === $user;
+    }
+
+    public function getStatus(): ?Status
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?Status $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }
-
 
 }

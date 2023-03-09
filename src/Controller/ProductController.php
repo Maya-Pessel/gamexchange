@@ -14,12 +14,13 @@ use App\Repository\UserRepository;
 use App\Repository\ExchangeRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
-
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class ProductController extends AbstractController
 {
@@ -131,7 +132,7 @@ class ProductController extends AbstractController
     /**
      * @Route("/product/{id<[0-9]+>}/create-exchange", name="app_product_exchange", methods="GET|POST")
      */
-    public function exchange(Product $product, Request $request, EntityManagerInterface $em): Response
+    public function exchange(Product $product, Request $request, EntityManagerInterface $em, UserInterface $user): Response
     {
         $form = $this->createForm(ExchangeType::class);
 
@@ -141,21 +142,23 @@ class ProductController extends AbstractController
             $exchange = new Exchange();
             $exchange->setProductId1($product);
             $exchange->setProductId2($form->get('productId2')->getData());
+            $exchange->setCreatedBy($user);
 
-            // Create a new ExchangeStatus object and associate it with the Exchange
-            $exchangeStatus = new ExchangeStatus();
-            $exchangeStatus->setExchangeId($exchange);
+            // Set the exchange status to "Pending"
             $status = $em->getRepository(Status::class)->findOneBy(['name' => 'Pending']);
-            $exchangeStatus->setStatusId($status);
-            $em->persist($exchangeStatus);
+            $exchange->setStatus($status);
 
             $em->persist($exchange);
             $em->flush();
 
             $this->addFlash('success', 'Exchange successfully created');
-            echo "exchange created";
             return $this->redirectToRoute('app_home');
         }
+
+        return $this->render('product/create_exchange.html.twig', [
+            'form' => $form->createView(),
+            'product' => $product
+        ]);
     }
 
     /**
@@ -169,4 +172,5 @@ class ProductController extends AbstractController
             'exchanges' => $exchanges,
         ]);
     }
+
 }
