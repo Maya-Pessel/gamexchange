@@ -7,6 +7,7 @@ use App\Entity\ExchangeStatus;
 use App\Entity\Product;
 use App\Entity\Status;
 use App\Entity\User;
+use App\Form\ExchangeStatusType;
 use App\Form\ExchangeType;
 use App\Form\ProductType;
 use App\Form\UserType;
@@ -125,52 +126,6 @@ class ProductController extends AbstractController
         $this->addFlash('success', 'Product successfully deleted');
 
         return $this->redirectToRoute('app_home');
-    }
-
-
-    # exchange a product with another user with the exchange entity
-    /**
-     * @Route("/product/{id<[0-9]+>}/create-exchange", name="app_product_exchange", methods="GET|POST")
-     */
-    public function exchange(Product $product, Request $request, EntityManagerInterface $em, UserInterface $user): Response
-    {
-        $form = $this->createForm(ExchangeType::class);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $exchange = new Exchange();
-            $exchange->setProductId1($product);
-            $exchange->setProductId2($form->get('productId2')->getData());
-            $exchange->setCreatedBy($user);
-
-            // Set the exchange status to "Pending"
-            $status = $em->getRepository(Status::class)->findOneBy(['name' => 'Pending']);
-            $exchange->setStatus($status);
-
-            $em->persist($exchange);
-            $em->flush();
-
-            $this->addFlash('success', 'Exchange successfully created');
-            return $this->redirectToRoute('app_home');
-        }
-
-        return $this->render('product/create_exchange.html.twig', [
-            'form' => $form->createView(),
-            'product' => $product
-        ]);
-    }
-
-    /**
-     * @Route("/product/{id<[0-9]+>}/show-exchange", name="app_product_exchanges", methods="GET|POST")
-     */
-    public function showExchanges(Product $product, ExchangeRepository $exchangeRepository): Response
-    {
-        $exchanges = $exchangeRepository->exchangesForProduct($product);
-        return $this->render('product/show-exchange.html.twig', [
-            'product' => $product,
-            'exchanges' => $exchanges,
-        ]);
     }
 
 }
