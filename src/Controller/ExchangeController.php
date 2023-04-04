@@ -118,17 +118,9 @@ class ExchangeController extends AbstractController
      */
     public function cancelExchange(Exchange $exchange, EntityManagerInterface $entityManager): Response
     {
-        $status = $entityManager->getRepository(Status::class)->findOneBy(['name' => 'Canceled']);
-
-        if (!$status) {
-            throw $this->createNotFoundException('The status "Cancelled" does not exist.');
-        }
-
-        $exchange->setStatus($status);
+        $entityManager->remove($exchange);
         $entityManager->flush();
-
-        $this->addFlash('success', 'The exchange has been cancelled.');
-
-        return $this->redirectToRoute('app_product_exchanges', ['id' => $exchange->getId()]);
+        $this->addFlash('success', 'Exchange successfully canceled');
+        return $this->redirectToRoute('app_home');
     }
 }

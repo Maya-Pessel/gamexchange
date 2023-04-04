@@ -1,61 +1,16 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+
     <div class="row  mt-4">
 
 
         {% for exchange in exchanges %}
-            <div class="col-md-4 offset-1">
-                <h3 class="text-center">Your product</h3>
-                <div class="product yellow-box mt-4">
-                    {% if  exchange.productId1.id == product.id %}
-                        <a href="{{ path('app_product_show', {id: exchange.productId1.id}) }}">
-                            <h2>{{ exchange.productId1.title}}</h2>
-                            <p class="text-center mt-2"><img src={{ asset('build/images/exchange.png') }}></p>
-                            <div class="mw-100 overflow-hidden rounded-top">
-                                <img class="w-75 mb-2" src="{{ (exchange.productId1.image ? vich_uploader_asset(exchange.productId1): asset('build/images/placeholder.png')) |imagine_filter('squared_thumbnail_small') }}" alt="{{ exchange.productId1.title }}">
-                            </div>
-                        </a>
-                    {% else %}
-                        <a href="{{ path('app_product_show', {id: exchange.productId2.id}) }}">
-                            <h2>{{ exchange.productId2.title}}</h2>
-                            <p class="text-center mt-2"><img src={{ asset('build/images/exchange.png') }}></p>
-                            <div class="mw-100 overflow-hidden rounded-top">
-                                <img class="w-75 mb-2" src="{{ (exchange.productId2.image ? vich_uploader_asset(exchange.productId2): asset('build/images/placeholder.png')) |imagine_filter('squared_thumbnail_small') }}" alt="{{ exchange.productId2.title }}">
-                            </div>
-                        </a>
-                    {% endif %}
-
-                </div>
-            </div>
-
-            <div class="col-md-2 text-center my-auto">
-                <h2>{{ exchange.status.name }}</h2>
-                {% if exchange.status.name == 'Pending' %}
-                    <a href="{{ path('app_exchange_edit_status', {id: exchange.id}) }}">Edit Status</a>
-                    <br><br>
-                    <a href="{{ path('app_exchange_cancel', {id: exchange.id}) }}" class="btn btn-danger">Cancel</a>
-                {% endif %}
-                <br><br>
-                <a href="#" class="btn btn-primary">Envoyer un message</a>
-            </div>
-
-            <div class="col-md-4">
-
-                {% if  exchange.productId1.id == product.id %}
-                <h3 class="text-center">Product of {{ exchange.productId2.getUser().firstName }}</h3>
-                <div class="product yellow-box mt-4">
-                        <a href="{{ path('app_product_show', {id: exchange.productId2.id}) }}">
-                            <h2>{{ exchange.productId2.title}}</h2>
-                            <p class="text-center mt-2"><img src={{ asset('build/images/exchange.png') }}></p>
-                            <div class="mw-100 overflow-hidden rounded-top">
-                                <img class="w-75 mb-2" src="{{ (exchange.productId2.image ? vich_uploader_asset(exchange.productId2): asset('build/images/placeholder.png')) |imagine_filter('squared_thumbnail_small') }}" alt="{{ exchange.productId2.title }}">
-                            </div>
-                        </a>
-                </div>
-                    {% else %}
-                <h3 class="text-center">Product of {{ exchange.productId1.getUser().firstName }}</h3>
-                <div class="product yellow-box mt-4">
+            <div class="d-flex {% if exchange.createdBy == app.user %}flex-row-reverse{% endif %}">
+                <div class="col-md-5">
+                    {% if exchange.createdBy != app.user %}<h3 class="text-center">Your product</h3>{% endif %}
+                    {% if exchange.createdBy == app.user %}<h3 class="text-center">Product of {{ exchange.createdBy.firstName }}</h3>{% endif %}
+                    <div class="product yellow-box mt-4">
                         <a href="{{ path('app_product_show', {id: exchange.productId1.id}) }}">
                             <h2>{{ exchange.productId1.title}}</h2>
                             <p class="text-center mt-2"><img src={{ asset('build/images/exchange.png') }}></p>
@@ -64,7 +19,45 @@
                             </div>
                         </a>
                     </div>
+                </div>
+
+                <div class="col-md-2 text-center my-auto">
+                    <h2>{{ exchange.status.name }}</h2>
+                    {% if exchange.status.name == 'Pending'%}
+                        {% if exchange.createdBy != app.user %}
+                            {% set showEditButton = true %}
+                            {% set showCancelButton = false %}
+                        {% else %}
+                            {% set showEditButton = false %}
+                            {% set showCancelButton = true %}
+                        {% endif %}
                     {% endif %}
+                    {% if exchange.status.name != 'Canceled' and exchange.status.name != 'Accepted' and exchange.status.name != 'Refused' %}
+                        {% if showEditButton %}
+                            <a href="{{ path('app_exchange_edit_status', {id: exchange.id}) }}">Edit Status</a>
+                        {% endif %}
+                        {% if showCancelButton %}
+                            <a href="{{ path('app_exchange_cancel', {id: exchange.id}) }}" class="btn btn-danger">Cancel</a>
+                        {% endif %}
+                    {% endif %}
+                    <br><br>
+                    <a href="#" class="btn btn-primary">Envoyer un message</a>
+                </div>
+
+
+                <div class="col-md-5">
+                    {% if exchange.createdBy == app.user %}<h3 class="text-center">Your product</h3>{% endif %}
+                    {% if exchange.createdBy != app.user %}<h3 class="text-center">Product of {{ exchange.createdBy.firstName }}</h3>{% endif %}
+                    <div class="product yellow-box mt-4">
+                            <a href="{{ path('app_product_show', {id: exchange.productId2.id}) }}">
+                                <h2>{{ exchange.productId2.title}}</h2>
+                                <p class="text-center mt-2"><img src={{ asset('build/images/exchange.png') }}></p>
+                                <div class="mw-100 overflow-hidden rounded-top">
+                                    <img class="w-75 mb-2" src="{{ (exchange.productId2.image ? vich_uploader_asset(exchange.productId2): asset('build/images/placeholder.png')) |imagine_filter('squared_thumbnail_small') }}" alt="{{ exchange.productId2.title }}">
+                                </div>
+                            </a>
+                    </div>
+                </div>
             </div>
         {% endfor %}
     </div>
