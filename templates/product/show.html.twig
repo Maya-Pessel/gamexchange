@@ -11,8 +11,8 @@
                         ⋮
                     </button>
                     <ul class="dropdown-menu">
-                        <li><a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn d-flex">Modifier<img src={{ asset('build/images/edit.png') }}></a></li>
-                        <li><a href="{{ path('app_product_delete', {'id': product.id}) }}" class="btn d-flex">Supprimer<img src={{ asset('build/images/delete.png') }}></a></li>
+                        <li><a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn d-flex">Edit<img src={{ asset('build/images/edit.png') }}></a></li>
+                        <li><a href="{{ path('app_product_delete', {'id': product.id}) }}" class="btn d-flex">Delete<img src={{ asset('build/images/delete.png') }}></a></li>
 
                     </ul>
                 {% endif %}
@@ -22,18 +22,18 @@
             <img class="w-100" src="{{ (product.image ? vich_uploader_asset(product): asset('build/images/placeholder.png')) |imagine_filter('squared_thumbnail_medium') }}" alt="{{ product.title }}">
             <p class="mt-2">{{ product.description}}</p>
 
-            <p class="mt-2">Posté par {{product.user.firstName}} {{product.user.lastName}}</p>
+            <p class="mt-2">Posted by {{product.user.firstName}} {{product.user.lastName}}</p>
             {% if app.user %}
                 {% if app.user != product.user  %}
 
                     <a href="{{ path('app_product_exchange', {'id': product.id}) }}" class="btn blue-box">
-                        Proposer un échange
+                        Propose an exchange
                     </a>
                 {% endif %}
 
             {% else %}
                 <a href="{{ path('app_login') }}" class="btn blue-box">
-                    Proposer un échange
+                    Propose an exchange
                 </a>
             {% endif %}
         </div>
