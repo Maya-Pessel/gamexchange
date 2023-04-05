@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ExchangeRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ExchangeRepository::class)]
@@ -20,6 +22,13 @@ class Exchange
     #[ORM\ManyToOne(inversedBy: 'exchanges')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Product $productId2 = null;
+
+    #[ORM\ManyToOne(inversedBy: 'exchanges')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $createdBy = null;
+
+    #[ORM\ManyToOne(inversedBy: 'exchanges')]
+    private ?Status $status = null;
 
     public function getId(): ?int
     {
@@ -49,4 +58,34 @@ class Exchange
 
         return $this;
     }
+
+    public function getCreatedBy(): ?User
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?User $createdBy): self
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    public function canBeEditedByUser(User $user): bool
+    {
+        return $this->getCreatedBy() === $user;
+    }
+
+    public function getStatus(): ?Status
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?Status $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
 }

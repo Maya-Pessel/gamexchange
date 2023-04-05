@@ -76,4 +76,6 @@ class ExchangeRepository extends ServiceEntityRepository
 
         return $queryBuilder->getQuery()->getResult();
     }
+
+
 }

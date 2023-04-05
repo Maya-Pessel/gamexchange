@@ -40,9 +40,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user_id', targetEntity: Product::class, orphanRemoval: true)]
     private Collection $products;
 
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Exchange::class)]
+    private Collection $exchanges;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
+        $this->exchanges = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -182,6 +186,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($product->getUserId() === $this) {
                 $product->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Exchange>
+     */
+    public function getExchanges(): Collection
+    {
+        return $this->exchanges;
+    }
+
+    public function addExchange(Exchange $exchange): self
+    {
+        if (!$this->exchanges->contains($exchange)) {
+            $this->exchanges->add($exchange);
+            $exchange->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeExchange(Exchange $exchange): self
+    {
+        if ($this->exchanges->removeElement($exchange)) {
+            // set the owning side to null (unless already changed)
+            if ($exchange->getCreatedBy() === $this) {
+                $exchange->setCreatedBy(null);
             }
         }
 
