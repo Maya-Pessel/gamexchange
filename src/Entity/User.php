@@ -43,10 +43,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Exchange::class)]
     private Collection $exchanges;
 
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Messages::class)]
+    private Collection $messages;
+
     public function __construct()
     {
         $this->products = new ArrayCollection();
         $this->exchanges = new ArrayCollection();
+        $this->messages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -216,6 +220,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($exchange->getCreatedBy() === $this) {
                 $exchange->setCreatedBy(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Messages>
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Messages $message): self
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages->add($message);
+            $message->setCreatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Messages $message): self
+    {
+        if ($this->messages->removeElement($message)) {
+            // set the owning side to null (unless already changed)
+            if ($message->getCreatedBy() === $this) {
+                $message->setCreatedBy(null);
             }
         }
 
