@@ -30,6 +30,14 @@ class Exchange
     #[ORM\ManyToOne(inversedBy: 'exchanges')]
     private ?Status $status = null;
 
+    #[ORM\OneToMany(mappedBy: 'exchange', targetEntity: Messages::class)]
+    private Collection $messages;
+
+    public function __construct()
+    {
+        $this->messages = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -84,6 +92,36 @@ class Exchange
     public function setStatus(?Status $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Messages>
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Messages $message): self
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages->add($message);
+            $message->setExchange($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Messages $message): self
+    {
+        if ($this->messages->removeElement($message)) {
+            // set the owning side to null (unless already changed)
+            if ($message->getExchange() === $this) {
+                $message->setExchange(null);
+            }
+        }
 
         return $this;
     }

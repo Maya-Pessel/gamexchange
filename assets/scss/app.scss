@@ -90,3 +90,37 @@
     height: 25px;
     border-radius: 0;
 }
+
+.clear-both{
+    clear: both;
+}
+
+.message-bar{
+    width: 100%;
+    box-shadow: 2px 4px 0px #80B7BF;
+    border-top-left-radius: 6px;
+    border-bottom-left-radius: 6px;
+    border-top-right-radius: 0px!important;
+    border-bottom-right-radius: 0px!important;
+    border: 1px solid #006E7F;
+    padding: 6px;
+}
+
+.send-button{
+    background: #006E7F;
+    color: white;
+    width: max-content;
+    box-shadow: 2px 4px 0px #80B7BF;
+    border-top-right-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border: none;
+}
+
+.card{
+    border-radius: 0;
+}
+
+.chat{
+    height: 48vh;
+    overflow-y: auto;
+}

@@ -18,7 +18,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class ExchangeController extends AbstractController
 {
     /**
-     * @Route("/product/{id<[0-9]+>}/show-exchange", name="app_product_exchanges", methods="GET|POST")
+     * @Route("/product/{id<[0-9]+>}/exchange", name="app_product_exchanges", methods="GET|POST")
      */
     public function showExchanges(Product $product, ExchangeRepository $exchangeRepository): Response
     {
