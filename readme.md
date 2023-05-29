@@ -1,3 +1,5 @@
+# GamExchange
+
 GamExchange is an online platform dedicated to toy exchange, allowing families to give toys a second life while promoting sharing, reuse, and the circular economy. The goal is to reduce the production of new toys and the amount of waste generated, thereby preserving natural resources and reducing our ecological footprint.
 
 The branding is characterized by vibrant and childlike colors, along with hand-drawn icons, reflecting a joyful and playful atmosphere.
